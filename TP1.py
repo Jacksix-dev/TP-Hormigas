@@ -41,7 +41,7 @@ def printer (mtx,dimention):
 
 def matrix (size):
     print("entro")
-    vacia = 11111
+    vacia = 2222
     comida= 2
     ocupada = 3
     obstaculo = 4
