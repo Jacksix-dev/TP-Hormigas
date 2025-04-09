@@ -1,61 +1,55 @@
 from copy import deepcopy
 import time 
 import random
-import sys
 from termcolor import colored, cprint
 
+size= 5
 
-def printer (mtx,dimention):
+def printer (grilla):
     
     
-    for i in range(len(mtx)):
-        if mtx[i] == 1: 
-            print("entro")
-            mtx[i] = colored("▓▓", "green")
-        if mtx[i] == 2:
-            mtx[i] = colored("▓▓", "white")
-        if mtx[i] == 3:
-            mtx[i] = colored("▓▓", "red")
-        if mtx[i] == 4:
-            mtx[i] =  colored("▓▓", "black")           
-        if mtx[i] == 5:
-            mtx[i]=  colored("▓▓", "yellow")
+    for i in range(len(grilla)):
 
-    dimentionstart = deepcopy(dimention)
-    counter = 0
-    print(f"{dimentionstart} xdddddd")
-    while dimention < dimentionstart*dimentionstart:
-        
-        if counter == dimention:
-            
-            slicedmatrix = mtx[counter-dimention:dimention-1]
-            
-            dimention = dimention + dimention
-            
-            print("".join(slicedmatrix))
-        else:
-            counter = counter + 1
+        for valor in grilla[i]:
+            print(grilla[i])
+            if valor == 1: 
+                valor = colored("▓▓", "green")
+            if valor == 2:
+                valor = colored("▓▓", "white")
+            if valor == 3:
+                valor = colored("▓▓", "red")
+            if valor == 4:
+                valor =  colored("▓▓", "black")           
+            if valor == 5:
+                valor =  colored("▓▓", "yellow")
+    colored_grid = deepcopy(grilla)   
+
+    for i in range(0,len(colored_grid)):
+        for valor in colored_grid:
+            print(valor)
+
 
 
     
 
 def matrix (size):
-    print("entro")
-    vacia = 2222
+    
+    vacia = 1
     comida= 2
     ocupada = 3
     obstaculo = 4
     recorrida = 5
-    mtx =[]
-    for i in range(0,size**2):
-        mtx.append(4)
+    grilla =[]
+    
+    for i in range(0,size):
+        grilla.append([])
+        for y in range(0,size):
+            grilla[i].append(1)
+    printer(grilla)
+    
         
-    
-    
-    printer(mtx,size)
 
 
-
-matrix(5)
+matrix(size)
 
 
