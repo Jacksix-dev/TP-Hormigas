@@ -8,25 +8,21 @@ sys.stdout.reconfigure(encoding='utf-8')
 
 
 def printer (grilla):
-    
 
-    for i in range(len(grilla)):
-        for j in range(len(grilla[i])):
-            
-            if grilla[i][j] == 1: 
-                grilla[i][j] = colored("▓▓", "green")
-            if grilla[i][j] == 2:
-                grilla[i][j] = colored("▓▓", "white")
-            if grilla[i][j] == 3:
-                grilla[i][j] = colored("▓▓", "red")
-            if grilla[i][j] == 4:
-                grilla[i][j] =  colored("▓▓", "black")           
-            if grilla[i][j] == 5:
-                grilla[i][j] =  colored("▓▓", "yellow")
+    estado_a_color = {
+    0: 'red',
+    1: 'green',
+    2: 'blue',
+    3: 'white',
+    4: 'yellow',} 
 
-    
-    for i in range(len(grilla[i])):
-        print("".join(grilla[i]))
+    for fila in grilla:
+        fila_str = ""
+        for celda in fila:
+            color = estado_a_color[celda]
+            fila_str += colored("▓▓", color)
+        print(fila_str)
+
 
 
 def matrix (size):
@@ -41,17 +37,11 @@ def matrix (size):
     for i in range(0,size):
         grilla.append([])
         for y in range(0,size):
-            grilla[i].append(2)
+            grilla[i].append(1)
     
     printer(grilla)
         
+random = random.randint(0,4)
 
+print(random)
 
-matrix(30)
-
-
-lol = colored("▓▓", "green")
-cprint(lol)
-text = colored("Hello, World!", "red", attrs=["reverse", "blink"])
-print(text)
-cprint("Hello, World!", "green", "on_red")
