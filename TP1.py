@@ -2,35 +2,32 @@ from copy import deepcopy
 import time 
 import random
 from termcolor import colored, cprint
+import sys
+sys.stdout.reconfigure(encoding='utf-8')
 
-size= 2000
+
 
 def printer (grilla):
     
-    
+
     for i in range(len(grilla)):
-
-        for valor in grilla[i]:
-            print(grilla[i])
-            if valor == 1: 
-                valor = colored("▓▓", "green")
-            if valor == 2:
-                valor = colored("▓▓", "white")
-            if valor == 3:
-                valor = colored("▓▓", "red")
-            if valor == 4:
-                valor =  colored("▓▓", "black")           
-            if valor == 5:
-                valor =  colored("▓▓", "yellow")
-    colored_grid = deepcopy(grilla)   
-
-    for i in range(0,len(colored_grid)):
-        for valor in colored_grid:
-            print(valor)
-
-
+        for j in range(len(grilla[i])):
+            
+            if grilla[i][j] == 1: 
+                grilla[i][j] = colored("▓▓", "green")
+            if grilla[i][j] == 2:
+                grilla[i][j] = colored("▓▓", "white")
+            if grilla[i][j] == 3:
+                grilla[i][j] = colored("▓▓", "red")
+            if grilla[i][j] == 4:
+                grilla[i][j] =  colored("▓▓", "black")           
+            if grilla[i][j] == 5:
+                grilla[i][j] =  colored("▓▓", "yellow")
 
     
+    for i in range(len(grilla[i])):
+        print("".join(grilla[i]))
+
 
 def matrix (size):
     
@@ -44,12 +41,17 @@ def matrix (size):
     for i in range(0,size):
         grilla.append([])
         for y in range(0,size):
-            grilla[i].append(1)
-    printer(grilla)
+            grilla[i].append(2)
     
+    printer(grilla)
         
 
 
-matrix(size)
+matrix(30)
 
 
+lol = colored("▓▓", "green")
+cprint(lol)
+text = colored("Hello, World!", "red", attrs=["reverse", "blink"])
+print(text)
+cprint("Hello, World!", "green", "on_red")
