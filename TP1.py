@@ -3,7 +3,7 @@ import time
 import random
 from termcolor import colored, cprint
 
-size= 5
+size= 2000
 
 def printer (grilla):
     
