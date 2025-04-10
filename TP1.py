@@ -6,7 +6,6 @@ import sys
 sys.stdout.reconfigure(encoding='utf-8')
 
 
-
 def printer (grilla):
 
     estado_a_color = {
@@ -24,11 +23,7 @@ def printer (grilla):
         print(fila_str)
         
 
-
-
-
-
-def edit_grilla (grilla,hormigas,obstaculos,comida):
+def edit_grilla (grilla,hormigas,obstaculos,comida,tiempo):
     comida = comida
     posiciones_iniciales=[]
     
@@ -57,36 +52,74 @@ def edit_grilla (grilla,hormigas,obstaculos,comida):
 
    
     printer(grilla)
-    movedor_de_hormigas(grilla,posiciones_iniciales)
+    iterador(grilla,posiciones_iniciales,tiempo)
     
-def movedor_de_hormigas (grilla,posiciones_iniciales):
+def movedor_de_hormigas(grilla, posiciones_iniciales):
+    posiciones_finales= []
+    print(posiciones_iniciales)
+    for posicion in posiciones_iniciales:
+        # Pintamos la grilla donde estuvo la hormiga con el valor 4 (amarillo)
+        grilla[posicion[0]][posicion[1]] = 4 
 
+        movimiento_exitoso = False
+        reintentos = 0
+        max_reintentos = 10
+
+        # Intentamos hasta 10 veces hallar un movimiento válido
+        while not movimiento_exitoso and reintentos < max_reintentos:
+            reintentos += 1
+            valor_aleatorio = random.choice(["x", "y"])
+
+            if valor_aleatorio == "x":
+                direccion = random.choice(["arriba", "abajo"])
+                if direccion == "abajo":
+                    if (posicion[0] + 1 < len(grilla) 
+                        and grilla[posicion[0] + 1][posicion[1]] != 2):
+                        grilla[posicion[0]][posicion[1]] = 4
+                        posicion = (posicion[0] + 1, posicion[1])
+                        grilla[posicion[0]][posicion[1]] = 0
+                        movimiento_exitoso = True
+                        posiciones_finales.append(posicion)
+
+                elif direccion == "arriba":
+                    if (posicion[0] - 1 >= 0 
+                        and grilla[posicion[0] - 1][posicion[1]] != 2):
+                        grilla[posicion[0]][posicion[1]] = 4
+                        posicion = (posicion[0] - 1, posicion[1])
+                        grilla[posicion[0]][posicion[1]] = 0
+                        movimiento_exitoso = True
+                        posiciones_finales.append(posicion)
+            else:  # valor_aleatorio == "y"
+                direccion = random.choice(["derecha", "izquierda"])
+                if direccion == "derecha":
+                    if (posicion[1] + 1 < len(grilla[0]) 
+                        and grilla[posicion[0]][posicion[1] + 1] != 2):
+                        grilla[posicion[0]][posicion[1]] = 4
+                        posicion = (posicion[0], posicion[1] + 1)
+                        grilla[posicion[0]][posicion[1]] = 0
+                        movimiento_exitoso = True
+                        posiciones_finales.append(posicion)
+                elif direccion == "izquierda":
+                    if (posicion[1] - 1 >= 0 
+                        and grilla[posicion[0]][posicion[1] - 1] != 2):
+                        grilla[posicion[0]][posicion[1]] = 4
+                        posicion = (posicion[0], posicion[1] - 1)
+                        grilla[posicion[0]][posicion[1]] = 0
+                        movimiento_exitoso = True
+                        posiciones_finales.append(posicion)
+
+    time.sleep(0.2)
+    print("________________________________________________")
     
-    for pocision in posiciones_iniciales:
-        grilla[pocision[0]][pocision[1]] = 4 
-        valor_aleatorio = random.choice(["x", "y"])
-        if valor_aleatorio == "x":
-            direccion = random.choice(["derecha", "izquierda"])
-            
-            if direccion == "derecha":
-                    
-                    grilla[pocision[0]+1][pocision[1]] = 0
-
-        if valor_aleatorio == "y":
-            direccion = random.choice(["derecha", "izquierda"])
-
-            if direccion == "derecha":
-
-                    grilla[pocision[0]][pocision[1]+1] = 0           
-            if direccion == "izquierda":
-                    
-                    grilla[pocision[0]][pocision[1]-1] = 0 
-    time.sleep(0.5)
-    print("---------------------------------------------------------")
     printer(grilla)
+    return posiciones_finales
+
+def iterador (grilla, posiciones_iniciales,tiempo):
+    for i in range(0,tiempo):
+       posiciones_iniciales = movedor_de_hormigas(grilla, posiciones_iniciales)
 
 
-def matrix (size,hormigas,obstaculos,comida):
+def matrix (size,hormigas,obstaculos,comida,tiempo):
     
     grilla =[]
     
@@ -96,7 +129,7 @@ def matrix (size,hormigas,obstaculos,comida):
             grilla[i].append(1)
     
     
-    edit_grilla(grilla,hormigas,obstaculos,comida)
+    edit_grilla(grilla,hormigas,obstaculos,comida,tiempo)
 
 
-matrix(30,5,10,25)
+matrix(30,5,10,25,100)
