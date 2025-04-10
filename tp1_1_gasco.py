@@ -21,6 +21,7 @@ def printer (grilla):
             color = estado_a_color[celda]
             fila_str += colored("▓▓", color)
         print(fila_str)
+    return grilla
         
 
 def edit_grilla (grilla,hormigas,obstaculos,comida,tiempo):
@@ -56,7 +57,7 @@ def edit_grilla (grilla,hormigas,obstaculos,comida,tiempo):
     
 def movedor_de_hormigas(grilla, posiciones_iniciales):
     posiciones_finales= []
-    print(posiciones_iniciales)
+    
     for posicion in posiciones_iniciales:
         # Pintamos la grilla donde estuvo la hormiga con el valor 4 (amarillo)
         grilla[posicion[0]][posicion[1]] = 4 
@@ -108,8 +109,8 @@ def movedor_de_hormigas(grilla, posiciones_iniciales):
                         movimiento_exitoso = True
                         posiciones_finales.append(posicion)
 
-    time.sleep(0.2)
-    print("________________________________________________")
+    time.sleep(0.5)
+    
     
     printer(grilla)
     return posiciones_finales
@@ -130,6 +131,6 @@ def matrix (size,hormigas,obstaculos,comida,tiempo):
     
     
     edit_grilla(grilla,hormigas,obstaculos,comida,tiempo)
+    
 
 
-matrix(30,5,10,25,100)
