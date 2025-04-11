@@ -133,4 +133,4 @@ def matrix (size,hormigas,obstaculos,comida,tiempo):
     edit_grilla(grilla,hormigas,obstaculos,comida,tiempo)
     
 
-
+matrix(30,5,25,50,20)
