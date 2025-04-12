@@ -5,7 +5,7 @@ from termcolor import colored, cprint
 import sys
 sys.stdout.reconfigure(encoding='utf-8')
 
-comida = 25
+comida = 2
 tamaño = 30
 
 def contador_de_comida(grilla):
