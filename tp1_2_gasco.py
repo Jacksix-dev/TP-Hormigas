@@ -5,6 +5,25 @@ from termcolor import colored, cprint
 import sys
 sys.stdout.reconfigure(encoding='utf-8')
 
+comida = 2
+tamaño = 30
+
+def contador_de_comida(grilla):
+    comida_disponible = 0
+
+    for i in range(tamaño):
+        for y in range(tamaño):
+            if grilla[i][y] == 3:
+                comida_disponible += 1
+                print(comida_disponible)
+                if comida_disponible == comida/2:
+                    print("te comiste mas de la mitad")
+                    
+             
+
+
+               
+
 
 def printer (grilla):
 
