@@ -5,25 +5,6 @@ from termcolor import colored, cprint
 import sys
 sys.stdout.reconfigure(encoding='utf-8')
 
-comida = 25
-tamaño = 30
-
-def contador_de_comida(grilla):
-    comida_disponible = 0
-
-    for i in range(tamaño):
-        for y in range(tamaño):
-            if grilla[i][y] == 3:
-                comida_disponible += 1
-                print(comida_disponible)
-                if comida_disponible == comida/2:
-                    print("te comiste mas de la mitad")
-                    
-             
-
-
-               
-
 
 def printer (grilla):
 
@@ -73,7 +54,6 @@ def edit_grilla (grilla,hormigas,obstaculos,comida,tiempo):
    
     printer(grilla)
     iterador(grilla,posiciones_iniciales,tiempo)
-    contador_de_comida(grilla)
     
 def movedor_de_hormigas(grilla, posiciones_iniciales):
     posiciones_finales= []
@@ -129,7 +109,7 @@ def movedor_de_hormigas(grilla, posiciones_iniciales):
                         movimiento_exitoso = True
                         posiciones_finales.append(posicion)
 
-    time.sleep(0.1)
+    time.sleep(0.5)
     
     
     printer(grilla)
@@ -140,17 +120,17 @@ def iterador (grilla, posiciones_iniciales,tiempo):
        posiciones_iniciales = movedor_de_hormigas(grilla, posiciones_iniciales)
 
 
-def matrix (tamaño,hormigas,obstaculos,comida,tiempo):
+def matrix (size,hormigas,obstaculos,comida,tiempo):
     
     grilla =[]
     
-    for i in range(0,tamaño):
+    for i in range(0,size):
         grilla.append([])
-        for y in range(0,tamaño):
+        for y in range(0,size):
             grilla[i].append(1)
     
     
     edit_grilla(grilla,hormigas,obstaculos,comida,tiempo)
     
 
-matrix(tamaño,5,comida,50,50)
+matrix(30,5,25,50,20)
