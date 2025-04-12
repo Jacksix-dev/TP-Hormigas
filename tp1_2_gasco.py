@@ -5,22 +5,33 @@ from termcolor import colored, cprint
 import sys
 sys.stdout.reconfigure(encoding='utf-8')
 
-comida = 2
-tamaño = 30
+comida = 200
+tamaño_grilla = 60
+tiempo = 1000
+obstaculos = 100
+hormigas = 20
+
+pasos_globales = []
 
 def contador_de_comida(grilla):
     comida_disponible = 0
-
-    for i in range(tamaño):
-        for y in range(tamaño):
+    pasos = 0
+    
+    for i in range(tamaño_grilla):
+        for y in range(tamaño_grilla):
+            if grilla[i][y] == 4:
+                pasos += 1
             if grilla[i][y] == 3:
-                comida_disponible += 1
-                print(comida_disponible)
-                if comida_disponible == comida/2:
-                    print("te comiste mas de la mitad")
-                    
-             
-
+                comida_disponible += 1                   
+    if comida_disponible <= comida/2:
+        
+        pasos_globales.append(pasos)
+        return True     
+    else:
+        
+         
+        return False
+        
 
                
 
@@ -70,9 +81,18 @@ def edit_grilla (grilla,hormigas,obstaculos,comida,tiempo):
             grilla[x][y] = 3
             comida -= 1
 
-   
-    printer(grilla)
-    iterador(grilla,posiciones_iniciales,tiempo)
+    if contador_de_comida(grilla) == False:
+        
+        iterador(grilla,posiciones_iniciales,tiempo)
+
+
+def iterador (grilla, posiciones_iniciales,tiempo):
+    for i in range(0,tiempo):
+       if contador_de_comida(grilla) == False:
+            posiciones_iniciales = movedor_de_hormigas(grilla, posiciones_iniciales)
+       else:
+           break
+       
     
 def movedor_de_hormigas(grilla, posiciones_iniciales):
     posiciones_finales= []
@@ -128,15 +148,13 @@ def movedor_de_hormigas(grilla, posiciones_iniciales):
                         movimiento_exitoso = True
                         posiciones_finales.append(posicion)
 
-    time.sleep(0.5)
     
     
-    printer(grilla)
+    
+    
     return posiciones_finales
+    
 
-def iterador (grilla, posiciones_iniciales,tiempo):
-    for i in range(0,tiempo):
-       posiciones_iniciales = movedor_de_hormigas(grilla, posiciones_iniciales)
 
 
 def matrix (size,hormigas,obstaculos,comida,tiempo):
@@ -152,4 +170,17 @@ def matrix (size,hormigas,obstaculos,comida,tiempo):
     edit_grilla(grilla,hormigas,obstaculos,comida,tiempo)
     
 
-matrix(30,5,25,50,20)
+def simulador (simulaciones):
+    for i in range(simulaciones):
+        matrix(tamaño_grilla,hormigas,obstaculos,comida,tiempo)
+    
+    pasos_totales = 0
+    for value in pasos_globales:
+        pasos_totales += value  
+    promedio_de_pasos = pasos_totales / len(pasos_globales)
+    pasos_globales.sort()
+    print(pasos_globales)
+    print(f"Para encontrar al menos la mitad de la comida se necesitaron: \n - {round(promedio_de_pasos,2)} pasos en promedio. \n - {pasos_globales[0]} pasos como minimo.\n - {pasos_globales[-1]} pasos como maximo.")
+
+
+simulador(100)
