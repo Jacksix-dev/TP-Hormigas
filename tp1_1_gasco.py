@@ -1,4 +1,4 @@
-from copy import deepcopy
+
 import time 
 import random
 from termcolor import colored, cprint
@@ -120,17 +120,17 @@ def iterador (grilla, posiciones_iniciales,tiempo):
        posiciones_iniciales = movedor_de_hormigas(grilla, posiciones_iniciales)
 
 
-def matrix (size,hormigas,obstaculos,comida,tiempo):
+def matrix (espacio,hormigas,obstaculos,comida,tiempo):
     
     grilla =[]
     
-    for i in range(0,size):
+    for i in range(0,espacio):
         grilla.append([])
-        for y in range(0,size):
+        for y in range(0,espacio):
             grilla[i].append(1)
     
     
     edit_grilla(grilla,hormigas,obstaculos,comida,tiempo)
     
 
-matrix(30,5,25,50,20)
+matrix(30,20,100,200,200)
