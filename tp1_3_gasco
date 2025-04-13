@@ -2,17 +2,17 @@
 import random
 from termcolor import colored
 
-#Variables Globales para editar la grilla.
-comida = 0
-tamaño_grilla = 30
-obstaculos = 10
-hormigas = 100
+# Variables globales de configuración para la grilla y la simulación.
+comida = 0                 # Cantidad de comida a colocar 
+tamaño_grilla = 30       # Dimensión de la grilla (por ejemplo, 30 x 30)
+obstaculos = 10            # Número de obstáculos a colocar en la grilla
+hormigas = 5          # Número de hormigas a colocar en la grilla
 
-
-#Variables Globales para calcular el area.
+# Variable global para almacenar los resultados del área recorrida por cada simulación.
 
 area_recorrida=[]
 
+# Diccionario que asocia cada estado de celda a un color.
 
 estado_a_color = {
     0: 'red', #Hormigas
@@ -25,7 +25,11 @@ estado_a_color = {
 
 
 def matrix (size,hormigas,obstaculos,comida):
+    """
+    Crea la grilla inicial.
     
+    - Se genera una grilla de tamaño `n` x `n` con celdas inicializadas en 1 (vacías).
+    """
     grilla =[]
     
     for i in range(0,size):
@@ -33,14 +37,22 @@ def matrix (size,hormigas,obstaculos,comida):
         for y in range(0,size):
             grilla[i].append(1)
     
-    
+    # Llama a edit_grilla para insertar los elementos en la grilla.
     edit_grilla(grilla,hormigas,obstaculos,comida)
     
 
 
 
 def edit_grilla (grilla,hormigas,obstaculos,comida):
+    """
+    Configura la grilla inicial colocando hormigas, obstáculos y comida.
     
+    - Las hormigas se colocan en posiciones aleatorias y se guarda su posición inicial.
+    - Se colocan obstáculos y comida en celdas vacías (valor 1) == verde.
+    
+    Luego, se ejecutan 200 iteraciones de movimiento de hormigas y se pasa la grilla
+    resultante a la función contador_de_area para medir el área recorrida.
+    """
     comidalocal = comida
     posiciones_iniciales=[]
     
@@ -70,7 +82,7 @@ def edit_grilla (grilla,hormigas,obstaculos,comida):
     
     counter = 0
     ultima_grilla = []
-    while counter < 200:
+    while counter < 200:     # Se realizan 200 iteraciones de movimiento de hormigas.
         nuevas_posiciones,grilla = movedor_de_hormigas(grilla, posiciones_iniciales)
         posiciones_iniciales = nuevas_posiciones
         ultima_grilla = grilla 
@@ -86,7 +98,14 @@ def edit_grilla (grilla,hormigas,obstaculos,comida):
        
     
 def movedor_de_hormigas(grilla, posiciones_iniciales):
+    """
+    Mueve cada hormiga una vez (o intenta hasta max_reintentos) a una dirección aleatoria.
     
+    
+    Retorna una tupla con:
+      - Las nuevas posiciones de las hormigas.
+      - La grilla actualizada.
+    """
     posiciones_finales= []
     
     
@@ -155,35 +174,33 @@ def movedor_de_hormigas(grilla, posiciones_iniciales):
     
 
 def contador_de_area(grilla_final):
+    """
+    Calcula el área recorrida en la grilla final contando la cantidad de celdas marcadas con 4 
+    (amarillo) y agrega ese valor a la lista global 'area_recorrida'.
+    
+    """
     area = 0
     for fila in grilla_final:
         area +=fila.count(4) #Cuenta las casillas recorridas por las hormigas.
     area_recorrida.append(area) 
-def printer (grilla):
-    
-    estado_a_color = {
-    0: 'red',
-    1: 'green',
-    2: 'black',
-    3: 'white',
-    4: 'yellow',} 
-
-    for fila in grilla:
-        fila_str = ""
-        for celda in fila:
-            color = estado_a_color[celda]
-            fila_str += colored("▓▓", color)
-        print(fila_str)
-    return grilla
         
 
 def simulador (simulaciones):
+    """
+    Ejecuta la cantidad de simulaciones especificadas.
+    
+    Para cada simulación:
+      - Se genera la grilla y se inicializan los elementos (hormigas, obstáculos, comida).
+      - Se realizan 200 iteraciones de movimiento de hormigas.
+      - Se calcula el área recorrida (número de celdas marcadas como 4) y se almacena en 'area_recorrida'.
+    
+    Finalmente, se calcula y muestra el área recorrida promedio.
+    """
     area_total_recorrida = 0
 
     for i in range(simulaciones):
-        # Condiciones iniciales
+        
         matrix(tamaño_grilla,hormigas,obstaculos,comida)
-
 
     for value in area_recorrida:
         area_total_recorrida += value

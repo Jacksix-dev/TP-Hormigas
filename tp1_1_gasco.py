@@ -4,11 +4,12 @@ import random
 from termcolor import colored, cprint
 
 
-comida = 25
-tamaño_grilla = 30
-obstaculos = 30
-hormigas = 5
-tiempo = 100
+comida = 25 # Cantidad de comida a colocar en la grilla
+tamaño_grilla = 30 # Dimensión de la grilla (30 x 30)
+obstaculos = 30 # Número de obstáculos a colocar
+hormigas = 5 # Número de hormigas (se colocan en posiciones iniciales)
+tiempo = 100 # cantidad de ejecuciones de la simulacion.
+
 
 
 def matrix (tamaño_grilla,hormigas,obstaculos,comida,tiempo):
@@ -24,7 +25,7 @@ def matrix (tamaño_grilla,hormigas,obstaculos,comida,tiempo):
         for y in range(0,tamaño_grilla):
             grilla[i].append(1)
     
-    
+    # Llama a edit_grilla para insertar los elementos en la grilla.
     edit_grilla(grilla,hormigas,obstaculos,comida,tiempo)
     
 def edit_grilla (grilla,hormigas,obstaculos,comida,tiempo):
@@ -63,8 +64,9 @@ def edit_grilla (grilla,hormigas,obstaculos,comida,tiempo):
             grilla[x][y] = 3  # Marca la celda con comida
             comida -= 1
 
-   
+    #Imprime la grilla inicial
     printer(grilla)
+    
     iterador(grilla,posiciones_iniciales,tiempo)
 
 
@@ -94,11 +96,12 @@ def printer (grilla):
 
 def iterador (grilla, posiciones_iniciales,tiempo):
     """
-    Ejecuta iterativamente el movimiento de las hormigas durante el número de iteraciones especificado.
+    Ejecuta iterativamente el movimiento de las hormigas durante el número de iteraciones (tiempo) especificado.
     
     En cada iteración se actualizan las posiciones de las hormigas llamando a `movedor_de_hormigas`.
     """
     for i in range(0,tiempo):
+       print(f"t={i}")
        posiciones_iniciales = movedor_de_hormigas(grilla, posiciones_iniciales)
 
 
@@ -108,8 +111,8 @@ def movedor_de_hormigas(grilla, posiciones_iniciales):
     Mueve cada hormiga desde su posición actual a una posición adyacente válida.
     
     Se intenta mover la hormiga en el eje "x" o "y" de forma aleatoria, 
-    evitando que se mueva a una celda con un obstáculo (valor 2). 
-    La celda original se marca como visitada (valor 4) y la nueva posición recibe el valor de la hormiga (valor 0).
+    evitando que se mueva a una celda con un obstáculo (valor 2) o fuera de la grilla. 
+    La celda original se marca como visitada (valor 4 - amarillo) y la nueva posición recibe el valor de la hormiga (valor 0).
     Se intentará el movimiento hasta 10 veces en caso de encontrar una posición inválida.
     
     Devuelve una lista actualizada de las posiciones finales de las hormigas.
@@ -136,36 +139,36 @@ def movedor_de_hormigas(grilla, posiciones_iniciales):
                 if direccion == "abajo":
                     if (posicion[0] + 1 < len(grilla) 
                         and grilla[posicion[0] + 1][posicion[1]] != 2): #Si la celda esta dentro de la grilla y no es un obstaculo movemos la hormiga
-                        grilla[posicion[0]][posicion[1]] = 4
+                        grilla[posicion[0]][posicion[1]] = 4 #Se marca la celda como recorrida 
                         posicion = (posicion[0] + 1, posicion[1])
-                        grilla[posicion[0]][posicion[1]] = 0
+                        grilla[posicion[0]][posicion[1]] = 0 #Se mueve la hormiga
                         movimiento_exitoso = True
                         posiciones_finales.append(posicion) #Se actualizan las posiciones
 
                 elif direccion == "arriba":
                     if (posicion[0] - 1 >= 0 
-                        and grilla[posicion[0] - 1][posicion[1]] != 2):
-                        grilla[posicion[0]][posicion[1]] = 4
+                        and grilla[posicion[0] - 1][posicion[1]] != 2): #Si la celda esta dentro de la grilla y no es un obstaculo movemos la hormiga
+                        grilla[posicion[0]][posicion[1]] = 4 #Se marca la celda como recorrida 
                         posicion = (posicion[0] - 1, posicion[1])
-                        grilla[posicion[0]][posicion[1]] = 0
+                        grilla[posicion[0]][posicion[1]] = 0 #Se mueve la hormiga
                         movimiento_exitoso = True
                         posiciones_finales.append(posicion)
             else:  # valor_aleatorio == "x" y luego se define si va a la izquierda o la derecha.
                 direccion = random.choice(["derecha", "izquierda"])
                 if direccion == "derecha":
                     if (posicion[1] + 1 < len(grilla[0]) 
-                        and grilla[posicion[0]][posicion[1] + 1] != 2):
-                        grilla[posicion[0]][posicion[1]] = 4
+                        and grilla[posicion[0]][posicion[1] + 1] != 2): #Si la celda esta dentro de la grilla y no es un obstaculo movemos la hormiga
+                        grilla[posicion[0]][posicion[1]] = 4 #Se marca la celda como recorrida 
                         posicion = (posicion[0], posicion[1] + 1)
-                        grilla[posicion[0]][posicion[1]] = 0
+                        grilla[posicion[0]][posicion[1]] = 0 #Se mueve la hormiga
                         movimiento_exitoso = True
                         posiciones_finales.append(posicion)
                 elif direccion == "izquierda":
                     if (posicion[1] - 1 >= 0 
-                        and grilla[posicion[0]][posicion[1] - 1] != 2):
-                        grilla[posicion[0]][posicion[1]] = 4
+                        and grilla[posicion[0]][posicion[1] - 1] != 2): #Si la celda esta dentro de la grilla y no es un obstaculo movemos la hormiga
+                        grilla[posicion[0]][posicion[1]] = 4 #Se marca la celda como recorrida 
                         posicion = (posicion[0], posicion[1] - 1)
-                        grilla[posicion[0]][posicion[1]] = 0
+                        grilla[posicion[0]][posicion[1]] = 0 #Se mueve la hormiga
                         movimiento_exitoso = True
                         posiciones_finales.append(posicion)
 

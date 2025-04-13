@@ -3,14 +3,15 @@ import random
 from termcolor import colored, cprint
 
 
-comida = 200
-tamaño_grilla = 250
-obstaculos = 100
-hormigas = 20
+# Parámetros fijos para la simulación
+comida = 200           # Cantidad de comida a colocar en la grilla
+tamaño_grilla = 250    # Dimensión de la grilla (250 x 250)
+obstaculos = 100       # Número de obstáculos a colocar
+hormigas = 20          # Número de hormigas (se colocan en posiciones iniciales)
 
-comida_encontrada=0
-pasos_globales = []
-grilla_final = []
+comida_encontrada = 0  # Se incrementa cada vez que una hormiga se mueve a una celda con comida
+pasos_globales = []    # Lista que almacenará, para cada simulación, el número de pasos (celdas recorridas)
+grilla_final = []      # Guarda la grilla final de cada simulación
 
 estado_a_color = {
     0: 'red', #Hormigas
@@ -19,8 +20,6 @@ estado_a_color = {
     3: 'white',#comida
     4: 'yellow',}#celda recorrida
                
-
-
 
 
 
@@ -37,7 +36,7 @@ def matrix (size,hormigas,obstaculos,comida):
         for y in range(0,size):
             grilla[i].append(1)
     
-    
+    # Llama a edit_grilla para insertar los elementos en la grilla.
     edit_grilla(grilla,hormigas,obstaculos,comida)
     
 
@@ -90,6 +89,16 @@ def edit_grilla (grilla,hormigas,obstaculos,comida):
        
     
 def movedor_de_hormigas(grilla, posiciones_iniciales):
+    """
+    Mueve cada hormiga una vez (o intenta hasta max_reintentos) a una dirección aleatoria.
+    
+    Si la celda destino contiene comida (valor 3), se incrementa el contador global 'comida_encontrada'
+    
+    Retorna una tupla con:
+      - Las nuevas posiciones de las hormigas.
+      - Un booleano (limite_alcanzado) que es True si se ha alcanzado al menos la mitad de la comida.
+      - La grilla actualizada.
+    """
     posiciones_finales= []
     
     global comida_encontrada
@@ -156,18 +165,22 @@ def movedor_de_hormigas(grilla, posiciones_iniciales):
                         movimiento_exitoso = True
                         posiciones_finales.append(posicion)
     
-    if comida_encontrada >= (comida/2):
+    if comida_encontrada >= (comida/2): #Si encontramos la mitad de la comida o mas. Detenemos la iteracion. 
         limite_alcanzado = True
         
         
     else:
-        limite_alcanzado = False
+        limite_alcanzado = False #No se alcanzo el limite
     
-    return posiciones_finales, limite_alcanzado,grilla
+    return posiciones_finales, limite_alcanzado,grilla #Actualizamos las posiciones de los movimientos y si llegamos al limite de iteraciones.
     
 
 def contador_de_pasos(grilla_final):
+    """
+    Cuenta el número de celdas con valor 4 (celdas recorridas) en la grilla final.
 
+    y se agrega el resultado a la lista global 'pasos_globales'.
+    """
     pasos = 0
 
     for fila in grilla_final:
@@ -176,10 +189,17 @@ def contador_de_pasos(grilla_final):
     pasos_globales.append(pasos/2) # dividimos los pasos ya que una celda representa 2 numeros dentro de nuestra grilla
 
 def simulador (simulaciones):
-    
+    """
+    Ejecuta la cantidad de simulaciones especificada.
+    Para cada simulación:
+      - Se reinicia el contador de comida encontrada.
+      - Se registra el número de pasos realizados.
+      
+    Al finalizar, se calcula y muestra el número de pasos en promedio, el mínimo y el máximo necesarios.
+    """
 
     for i in range(simulaciones):
-        # Condiciones iniciales
+        
         global comida_encontrada 
         comida_encontrada = 0
         matrix(tamaño_grilla,hormigas,obstaculos,comida)
@@ -190,7 +210,7 @@ def simulador (simulaciones):
        
        pasos_totales += value  
     promedio_de_pasos = pasos_totales / len(pasos_globales)
-    pasos_globales.sort()
+    pasos_globales.sort() #Ordenamos los valores de menor a mayor para luego imprimir el primero y el ultimo
     
     print(f"Para encontrar al menos la mitad de la comida se necesitaron: \n - {round(promedio_de_pasos,2)} pasos en promedio. \n - {round(pasos_globales[0])} pasos como minimo.\n - {round(pasos_globales[-1])} pasos como maximo.")
    
