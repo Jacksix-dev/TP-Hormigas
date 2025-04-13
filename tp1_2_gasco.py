@@ -25,7 +25,11 @@ estado_a_color = {
 
 
 def matrix (size,hormigas,obstaculos,comida):
+    """
+    Crea la grilla inicial.
     
+    - Se genera una grilla de tamaño `n` x `n` con celdas inicializadas en 1 (vacías).
+    """
     grilla =[]
     
     for i in range(0,size):
@@ -40,7 +44,14 @@ def matrix (size,hormigas,obstaculos,comida):
 
 
 def edit_grilla (grilla,hormigas,obstaculos,comida):
-    comidalocal = comida
+    """
+    Configura la grilla inicial colocando hormigas, obstáculos y comida.
+    
+    - Las hormigas se colocan en posiciones aleatorias y se guarda su posición inicial.
+    - Se colocan obstáculos y comida en celdas vacías (valor 1) == verde.
+    - Finalmente, se imprime la grilla y se inicia el movimiento de las hormigas.
+    """
+    comidalocal = comida #establecemos la comida que hay al momento 0 
     posiciones_iniciales=[]
     
     while hormigas > 0:
@@ -67,15 +78,15 @@ def edit_grilla (grilla,hormigas,obstaculos,comida):
             comidalocal -= 1
     
     
+   
+    
+    
     exit = False
-    
-    
-    
-    while exit == False:
+    while exit == False: #mientras la funcion movedor de hormigas detecte que se ha encontrado la mitad de la comida, las homigas se van a seguir moviendo
         nuevas_posiciones, exit, grilla_final = movedor_de_hormigas(grilla, posiciones_iniciales)
         posiciones_iniciales = nuevas_posiciones
     
-    contador_de_pasos(grilla_final)
+    contador_de_pasos(grilla_final) #Cuando se haya la comida, se cuentan los pasos totales.
        
     
 def movedor_de_hormigas(grilla, posiciones_iniciales):
@@ -162,7 +173,7 @@ def contador_de_pasos(grilla_final):
     for fila in grilla_final:
         pasos +=fila.count(4) #Cuenta las casillas recorridas por las hormigas.
         
-    pasos_globales.append(pasos)
+    pasos_globales.append(pasos/2) # dividimos los pasos ya que una celda representa 2 numeros dentro de nuestra grilla
 
 def simulador (simulaciones):
     
@@ -181,7 +192,7 @@ def simulador (simulaciones):
     promedio_de_pasos = pasos_totales / len(pasos_globales)
     pasos_globales.sort()
     
-    print(f"Para encontrar al menos la mitad de la comida se necesitaron: \n - {round(promedio_de_pasos,2)} pasos en promedio. \n - {pasos_globales[0]} pasos como minimo.\n - {pasos_globales[-1]} pasos como maximo.")
+    print(f"Para encontrar al menos la mitad de la comida se necesitaron: \n - {round(promedio_de_pasos,2)} pasos en promedio. \n - {round(pasos_globales[0])} pasos como minimo.\n - {round(pasos_globales[-1])} pasos como maximo.")
    
 
 simulador(100)
